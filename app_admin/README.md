@@ -1,7 +1,7 @@
-# Travlr Admin
+# Travlr Admin — Module Seven
 
-Module Six Angular SPA. See the parent README for setup, API requirements, test evidence, and the remaining browser screenshot checklist.
+Angular 21 administration SPA with login/logout, session tokens, guarded edit routes, and authenticated CRUD requests. See the parent README for account setup, security design, verification results, and the remaining manual browser check.
 
-Use Node 24 LTS. Run `npm ci`, then `npm start` with Express listening on port 3000. Open http://localhost:4200. `npm run build` checks and creates a production build.
+Use Node 24 LTS. Run `npm ci` and `npm start` with Express on port 3000. Visit http://127.0.0.1:4200/login. Create the first administrator from the parent directory with `npm run setup:admin` and read its private `.admin-login.txt`.
 
-Components were generated with Angular CLI 21. Bootstrap is installed locally. The API service and images use the development proxy in `proxy.conf.json`.
+`npm test` runs Angular component/service tests with Vitest. `npm run build` creates a production build. API and image requests use `proxy.conf.json`.

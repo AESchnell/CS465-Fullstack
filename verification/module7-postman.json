@@ -1,0 +1,287 @@
+{
+  "checkedAt": "2026-10-19T01:50:44.292Z",
+  "requests": {
+    "total": 23,
+    "pending": 0,
+    "failed": 0
+  },
+  "assertions": {
+    "total": 33,
+    "pending": 0,
+    "failed": 0
+  },
+  "failures": [],
+  "mockPasswordStoredAsHash": true,
+  "executions": [
+    {
+      "name": "Public GET trips",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Public list available",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Anonymous POST denied",
+      "status": 401,
+      "assertions": [
+        {
+          "name": "HTTP 401",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Anonymous PUT denied",
+      "status": 401,
+      "assertions": [
+        {
+          "name": "HTTP 401",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Anonymous DELETE denied",
+      "status": 401,
+      "assertions": [
+        {
+          "name": "HTTP 401",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Anonymous registration denied",
+      "status": 401,
+      "assertions": [
+        {
+          "name": "HTTP 401",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Missing login fields",
+      "status": 400,
+      "assertions": [
+        {
+          "name": "HTTP 400",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Incorrect password",
+      "status": 401,
+      "assertions": [
+        {
+          "name": "HTTP 401",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Administrator login",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Token returned",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Authenticated identity",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "No password material",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Reject short registration password",
+      "status": 400,
+      "assertions": [
+        {
+          "name": "HTTP 400",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Register mock administrator",
+      "status": 201,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "Registration token returned",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Duplicate email rejected",
+      "status": 409,
+      "assertions": [
+        {
+          "name": "HTTP 409",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Mock administrator login",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Invalid JWT rejected",
+      "status": 401,
+      "assertions": [
+        {
+          "name": "HTTP 401",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Expired JWT rejected",
+      "status": 401,
+      "assertions": [
+        {
+          "name": "HTTP 401",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Authorized POST trip",
+      "status": 201,
+      "assertions": [
+        {
+          "name": "HTTP 201",
+          "passed": true
+        },
+        {
+          "name": "Numeric price accepted",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "GET created trip",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Trip saved",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Authorized PUT trip",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Updated price",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "GET updated trip",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Update persisted",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Public website remains available",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Public site contains new trip",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Authorized DELETE trip",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Deleted trip missing",
+      "status": 404,
+      "assertions": [
+        {
+          "name": "HTTP 404",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "Public website reflects deletion",
+      "status": 200,
+      "assertions": [
+        {
+          "name": "HTTP 200",
+          "passed": true
+        },
+        {
+          "name": "Test trip removed",
+          "passed": true
+        }
+      ]
+    }
+  ]
+}

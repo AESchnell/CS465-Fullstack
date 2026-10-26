@@ -1,0 +1,706 @@
+{
+  "info": {
+    "name": "Travlr Module Seven Authentication",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Set adminEmail/adminPassword using a local account. Set unique mockEmail, mockPassword (12+ characters), testCode, and a locally generated expiredToken. The supplied runner generates these in memory and cleans up its mock account; do not export secrets."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:3000"
+    },
+    {
+      "key": "invalidToken",
+      "value": "invalid.token.value"
+    },
+    {
+      "key": "websiteUrl",
+      "value": "http://127.0.0.1:3000"
+    }
+  ],
+  "item": [
+    {
+      "name": "Public GET trips",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/trips",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Public list available\", () => pm.expect(pm.response.json()).to.be.an(\"array\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Anonymous POST denied",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/trips",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"code\": \"{{testCode}}\", \"name\": \"Module Seven Security Test\", \"length\": \"3 nights / 4 days\", \"start\": \"2027-08-12\", \"resort\": \"Security Test Resort\", \"perPerson\": 999, \"image\": \"reef1.jpg\", \"description\": \"<p>Temporary security test trip.</p>\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Anonymous PUT denied",
+      "request": {
+        "method": "PUT",
+        "url": "{{baseUrl}}/api/trips/{{testCode}}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"code\": \"{{testCode}}\", \"name\": \"Module Seven Security Test\", \"length\": \"3 nights / 4 days\", \"start\": \"2027-08-12\", \"resort\": \"Security Test Resort\", \"perPerson\": 999, \"image\": \"reef1.jpg\", \"description\": \"<p>Temporary security test trip.</p>\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Anonymous DELETE denied",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/trips/{{testCode}}",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Anonymous registration denied",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/register",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Mock Administrator\", \"email\": \"{{mockEmail}}\", \"password\": \"{{mockPassword}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Missing login fields",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/login",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Incorrect password",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/login",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\": \"{{adminEmail}}\", \"password\": \"incorrect-test-password\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Administrator login",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/login",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\": \"{{adminEmail}}\", \"password\": \"{{adminPassword}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Token returned\", () => pm.expect(pm.response.json().token).to.be.a(\"string\"));",
+              "if (pm.response.code === 200) pm.collectionVariables.set(\"adminToken\", pm.response.json().token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Authenticated identity",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/me",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"No password material\", () => { pm.expect(pm.response.json()).not.to.have.property(\"hash\"); pm.expect(pm.response.json()).not.to.have.property(\"salt\"); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reject short registration password",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/register",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Mock Administrator\", \"email\": \"{{mockEmail}}\", \"password\": \"short\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Register mock administrator",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/register",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Mock Administrator\", \"email\": \"{{mockEmail}}\", \"password\": \"{{mockPassword}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+              "pm.test(\"Registration token returned\", () => pm.expect(pm.response.json().token).to.be.a(\"string\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Duplicate email rejected",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/register",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{adminToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Mock Administrator\", \"email\": \"{{mockEmail}}\", \"password\": \"{{mockPassword}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Mock administrator login",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/login",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\": \"{{mockEmail}}\", \"password\": \"{{mockPassword}}\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code === 200) pm.collectionVariables.set(\"mockToken\", pm.response.json().token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Invalid JWT rejected",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/trips",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{invalidToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"code\": \"{{testCode}}\", \"name\": \"Module Seven Security Test\", \"length\": \"3 nights / 4 days\", \"start\": \"2027-08-12\", \"resort\": \"Security Test Resort\", \"perPerson\": 999, \"image\": \"reef1.jpg\", \"description\": \"<p>Temporary security test trip.</p>\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Expired JWT rejected",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/trips",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{expiredToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"code\": \"{{testCode}}\", \"name\": \"Module Seven Security Test\", \"length\": \"3 nights / 4 days\", \"start\": \"2027-08-12\", \"resort\": \"Security Test Resort\", \"perPerson\": 999, \"image\": \"reef1.jpg\", \"description\": \"<p>Temporary security test trip.</p>\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Authorized POST trip",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/trips",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{mockToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"code\": \"{{testCode}}\", \"name\": \"Module Seven Security Test\", \"length\": \"3 nights / 4 days\", \"start\": \"2027-08-12\", \"resort\": \"Security Test Resort\", \"perPerson\": 999, \"image\": \"reef1.jpg\", \"description\": \"<p>Temporary security test trip.</p>\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+              "pm.test(\"Numeric price accepted\", () => pm.expect(pm.response.json().perPerson).to.eql(\"999\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET created trip",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/trips/{{testCode}}",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Trip saved\", () => pm.expect(pm.response.json()[0].name).to.eql(\"Module Seven Security Test\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Authorized PUT trip",
+      "request": {
+        "method": "PUT",
+        "url": "{{baseUrl}}/api/trips/{{testCode}}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{mockToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"code\": \"{{testCode}}\", \"name\": \"Module Seven Security Test\", \"length\": \"3 nights / 4 days\", \"start\": \"2027-08-12\", \"resort\": \"Security Test Resort\", \"perPerson\": 1049, \"image\": \"reef1.jpg\", \"description\": \"<p>Temporary security test trip.</p>\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Updated price\", () => pm.expect(pm.response.json().perPerson).to.eql(\"1049\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET updated trip",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/trips/{{testCode}}",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Update persisted\", () => pm.expect(pm.response.json()[0].perPerson).to.eql(\"1049\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Public website remains available",
+      "request": {
+        "method": "GET",
+        "url": "{{websiteUrl}}/travel",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Public site contains new trip\", () => pm.expect(pm.response.text()).to.include(\"Module Seven Security Test\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Authorized DELETE trip",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/trips/{{testCode}}",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{mockToken}}"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Deleted trip missing",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/trips/{{testCode}}",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Public website reflects deletion",
+      "request": {
+        "method": "GET",
+        "url": "{{websiteUrl}}/travel",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Test trip removed\", () => pm.expect(pm.response.text()).not.to.include(\"Module Seven Security Test\"));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

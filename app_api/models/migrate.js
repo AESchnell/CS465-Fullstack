@@ -1,3 +1,4 @@
+require('dotenv').config({ quiet: true });
 // Upgrade Module Five's nonunique trip-code index without changing trip records.
 const mongoose = require('mongoose');
 const host = process.env.DB_HOST || '127.0.0.1';

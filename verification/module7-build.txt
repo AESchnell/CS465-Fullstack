@@ -1,0 +1,12 @@
+❯ Building...
+✔ Building...
+Initial chunk files | Names         |  Raw size | Estimated transfer size
+main-UME4MBTA.js    | main          | 318.99 kB |                84.76 kB
+styles-WCP3NKKI.css | styles        | 230.99 kB |                22.65 kB
+
+                    | Initial total | 549.97 kB |               107.41 kB
+
+Application bundle generation complete. [2.137 seconds] - 2026-10-19T01:45:37.375Z
+
+Output location: /Users/austin/.codex/.chatgpt-projects/g-p-6aa6f3825d0081919d3bb090647767f8/travlr/app_admin/dist/travlr-admin
+

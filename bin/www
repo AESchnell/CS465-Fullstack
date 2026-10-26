@@ -27,7 +27,7 @@ var server = http.createServer(app);
 
 // Wait for MongoDB and the unique trip-code index before accepting writes.
 require('../app_api/models/db').connection.asPromise()
-  .then(() => require('../app_api/models/travlr').init())
+  .then(() => Promise.all([require('../app_api/models/travlr').init(), require('../app_api/models/user').init()]))
   .then(() => server.listen(port))
   .catch(async err => {
     console.error('Startup failed:', err.message, 'For a Module Five database, run npm run migrate first.');

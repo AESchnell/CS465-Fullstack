@@ -1,0 +1,22 @@
+❯ Building...
+✔ Building...
+Initial chunk files       | Names                  |  Raw size
+styles.css                | styles                 | 277.15 kB | 
+spec-app-auth-security.js | spec-app-auth-security |  58.81 kB | 
+chunk-RSTWSNOR.js         | -                      |   4.75 kB | 
+init-testbed.js           | init-testbed           |   1.21 kB | 
+vitest-mock-patch.js      | vitest-mock-patch      | 974 bytes | 
+
+                          | Initial total          | 342.91 kB
+
+Application bundle generation complete. [1.241 seconds] - 2026-10-19T01:49:28.260Z
+
+
+ RUN  v4.1.12 /Users/austin/.codex/.chatgpt-projects/g-p-6aa6f3825d0081919d3bb090647767f8/travlr/app_admin
+
+
+ Test Files  1 passed (1)
+      Tests  10 passed (10)
+   Start at  21:49:28
+   Duration  1.05s (transform 71ms, setup 178ms, import 131ms, tests 130ms, environment 477ms)
+
