@@ -1,4 +1,7 @@
 <header class="navbar navbar-dark bg-dark mb-4">
-  <div class="container"><a class="navbar-brand fw-bold" routerLink="/">TRAVLR <span class="fw-normal">Getaways</span></a><span class="text-white-50">Trip administration</span></div>
+  <div class="container"><a class="navbar-brand fw-bold" routerLink="/">TRAVLR <span class="fw-normal">Getaways</span></a><nav class="d-flex align-items-center gap-3" aria-label="Account">
+@if (auth.isLoggedIn()) { <span class="text-white">{{ auth.name() }}</span><button class="btn btn-outline-light" (click)="auth.logout()">Log out</button> }
+@else { <a class="btn btn-outline-light" routerLink="/login">Log in</a> }
+</nav></div>
 </header>
 <main class="container pb-5"><router-outlet /></main>

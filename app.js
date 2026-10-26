@@ -1,3 +1,6 @@
+require('dotenv').config({ quiet: true });
+require('./app_api/config/security').secret();
+var passport = require('./app_api/config/passport');
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -27,6 +30,7 @@ app.use(cookieParser());
 app.get('/travel.html', (req, res) => res.redirect('/travel'));
 app.use(express.static(path.join(__dirname, 'public'), { index: false }));
 
+app.use(passport.initialize());
 app.use('/api', apiRouter);
 app.use('/', indexRouter);
 app.use('/travel', travelRouter);

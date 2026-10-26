@@ -5,7 +5,8 @@
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development"
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test --watch=false"
   },
   "private": true,
   "packageManager": "npm@11.19.1",
@@ -24,8 +25,10 @@
     "@angular/build": "^21.2.27",
     "@angular/cli": "^21.2.27",
     "@angular/compiler-cli": "^21.2.0",
+    "jsdom": "^27.4.0",
     "prettier": "^3.8.1",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.2",
+    "vitest": "^4.1.12"
   },
   "engines": {
     "node": "^20.19.0 || ^22.12.0 || ^24.0.0"

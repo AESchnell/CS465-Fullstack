@@ -1,0 +1,47 @@
+
+> travlr@0.0.0 test
+> node --test test/*.test.js
+
+✔ list and trip-code routes return JSON and use the correct FIND filters (42.736625ms)
+✔ empty list is 200; missing trip and route are JSON 404; PATCH is 405 (12.1665ms)
+Trip list lookup failed: internal database details
+Trip code lookup failed: internal database details
+Travel page API request failed: Trips API returned HTTP 500
+Travel page API request failed: Trips API did not return an array
+Travel page API request failed: invalid JSON
+Travel page API request failed: connection refused
+✔ database failures return JSON 500 without leaking internal errors (4.028792ms)
+✔ Travel renders records returned by the API (0.456625ms)
+✔ Travel displays an empty-list message (0.166833ms)
+✔ Travel handles HTTP failure with a friendly 502 page (0.154208ms)
+✔ Travel handles non-array JSON with a friendly 502 page (0.299334ms)
+✔ Travel handles invalid JSON with a friendly 502 page (0.269875ms)
+✔ Travel handles network failure with a friendly 502 page (0.173083ms)
+✔ passwords use distinct salts and timing-safe verification; hashes never serialize (257.617167ms)
+✔ JWT has a verified identity, audience, issuer, and one-hour expiry (3.005ms)
+✔ all writes and account registration reject anonymous clients; GET remains public (51.361ms)
+✔ malformed, forged, expired, wrong-audience, and missing-expiry JWTs are rejected (13.483916ms)
+✔ a valid token from a deleted account is rejected (2.339291ms)
+✔ authenticated users can POST, PUT and DELETE; account response omits secrets (9.754375ms)
+✔ login verifies password, normalizes email and returns generic failures (326.66825ms)
+✔ authenticated registration validates input, hashes passwords, and handles duplicates (167.715916ms)
+✔ database authentication failures deny access without exposing errors (2.817541ms)
+Trip write failed: secret
+✔ POST validates input before writing (1.251292ms)
+✔ POST returns created trip and removes executable HTML (1.4605ms)
+✔ duplicate code is a conflict (0.277625ms)
+✔ PUT validates and updates only an existing matching code (0.847042ms)
+✔ PUT and DELETE report missing records (0.309291ms)
+✔ DELETE returns confirmation and handles database failure (0.685625ms)
+✔ POST and PUT accept numeric prices, including zero, and normalize storage (0.624583ms)
+✔ numeric price normalization still rejects invalid prices (0.208334ms)
+✔ sample trips validate and serialize dates as ISO strings (7.1125ms)
+✔ incomplete trip records and invalid dates are rejected (7.971375ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1169.739667

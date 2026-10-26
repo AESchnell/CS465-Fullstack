@@ -6,16 +6,29 @@
     "start": "node ./bin/www",
     "seed": "node ./app_api/models/seed.js",
     "test": "node --test test/*.test.js",
-    "migrate": "node ./app_api/models/migrate.js"
+    "migrate": "node ./app_api/models/migrate.js",
+    "setup:admin": "node scripts/setup-admin.js",
+    "test:security": "node scripts/test-security.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dotenv": "^18.0.8",
     "express": "^4.22.2",
+    "express-rate-limit": "^8.7.1",
     "hbs": "^4.3.1",
     "http-errors": "~1.6.3",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.10.3",
     "morgan": "^1.12.1",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
     "sanitize-html": "^2.18.1"
+  },
+  "devDependencies": {
+    "newman": "^6.2.2"
+  },
+  "overrides": {
+    "handlebars": "^4.7.10"
   }
 }
