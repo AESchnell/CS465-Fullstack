@@ -1,0 +1,12 @@
+❯ Building...
+✔ Building...
+Initial chunk files | Names         |  Raw size | Estimated transfer size
+main-GU3SIN3N.js    | main          | 312.82 kB |                83.21 kB
+styles-WCP3NKKI.css | styles        | 230.99 kB |                22.65 kB
+
+                    | Initial total | 543.81 kB |               105.86 kB
+
+Application bundle generation complete. [2.066 seconds] - 2026-10-19T01:33:27.222Z
+
+Output location: /Users/austin/.codex/.chatgpt-projects/g-p-6aa6f3825d0081919d3bb090647767f8/travlr/app_admin/dist/travlr-admin
+

@@ -1,0 +1,18 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div><h1 class="mb-1">Trips</h1><p class="text-secondary mb-0">Manage your getaways · {{ trips().length }} trips</p></div>
+  <a class="btn btn-primary" routerLink="/add-trip">Add trip</a>
+</div>
+@if (notice()) { <div class="alert alert-success" role="status">{{ notice() }}</div> }
+@if (error()) { <div class="alert alert-danger" role="alert">{{ error() }} <button class="btn btn-sm btn-outline-danger ms-2" (click)="load()">Retry</button></div> }
+@if (pendingDelete(); as trip) {
+  <section class="alert alert-warning" aria-label="Confirm trip deletion">
+    <p>Delete <strong>{{ trip.name }}</strong>? This removes the trip from the public website too.</p>
+    <button class="btn btn-danger me-2" [disabled]="busy()" (click)="confirmDelete()">{{ busy() ? 'Deleting…' : 'Confirm delete' }}</button>
+    <button class="btn btn-outline-secondary" [disabled]="busy()" (click)="pendingDelete.set(null)">Cancel</button>
+  </section>
+}
+@if (loading()) { <p role="status">Loading trips…</p> }
+@else if (!error() && trips().length === 0) { <p>No trips yet. Add your first getaway to get started.</p> }
+<div class="row g-4">
+  @for (trip of trips(); track trip.code) { <div class="col-12 col-md-6 col-xl-3"><app-trip-card [trip]="trip" [busy]="busy()" (deleteTrip)="pendingDelete.set($event)" /></div> }
+</div>

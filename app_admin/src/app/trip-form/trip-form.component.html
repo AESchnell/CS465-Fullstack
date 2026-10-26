@@ -1,0 +1,25 @@
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate class="card shadow-sm p-4">
+<fieldset [disabled]="busy()">
+<div class="row g-3">
+<div class="col-md-6"><label class="form-label" for="code">Trip code</label><input class="form-control" id="code" type="text" formControlName="code" [readonly]="!!trip()" [class.is-invalid]="invalid('code')" [attr.aria-invalid]="invalid('code')" required />
+<div class="form-text">Use letters, numbers, hyphens or underscores.</div>
+@if (invalid('code')) { <div class="invalid-feedback">Please enter a valid trip code.</div> }</div>
+<div class="col-md-6"><label class="form-label" for="name">Trip name</label><input class="form-control" id="name" type="text" formControlName="name" [class.is-invalid]="invalid('name')" [attr.aria-invalid]="invalid('name')" required />
+@if (invalid('name')) { <div class="invalid-feedback">Please enter a valid trip name.</div> }</div>
+<div class="col-md-6"><label class="form-label" for="length">Length</label><input class="form-control" id="length" type="text" formControlName="length" [class.is-invalid]="invalid('length')" [attr.aria-invalid]="invalid('length')" required />
+<div class="form-text">For example: 4 nights / 5 days</div>
+@if (invalid('length')) { <div class="invalid-feedback">Please enter a valid length.</div> }</div>
+<div class="col-md-6"><label class="form-label" for="start">Start date</label><input class="form-control" id="start" type="date" formControlName="start" [class.is-invalid]="invalid('start')" [attr.aria-invalid]="invalid('start')" required />
+@if (invalid('start')) { <div class="invalid-feedback">Please enter a valid start date.</div> }</div>
+<div class="col-md-6"><label class="form-label" for="resort">Resort</label><input class="form-control" id="resort" type="text" formControlName="resort" [class.is-invalid]="invalid('resort')" [attr.aria-invalid]="invalid('resort')" required />
+@if (invalid('resort')) { <div class="invalid-feedback">Please enter a valid resort.</div> }</div>
+<div class="col-md-6"><label class="form-label" for="perPerson">Price per person (USD)</label><input class="form-control" id="perPerson" type="number" formControlName="perPerson" min="0" step="0.01" [class.is-invalid]="invalid('perPerson')" [attr.aria-invalid]="invalid('perPerson')" required />
+<div class="form-text">Enter a nonnegative amount with up to two decimal places.</div>
+@if (invalid('perPerson')) { <div class="invalid-feedback">Please enter a valid price per person (usd).</div> }</div>
+<div class="col-md-6"><label class="form-label" for="image">Image filename</label><input class="form-control" id="image" type="text" formControlName="image" [class.is-invalid]="invalid('image')" [attr.aria-invalid]="invalid('image')" required />
+<div class="form-text">Available images: reef1.jpg, reef2.jpg, reef3.jpg</div>
+@if (invalid('image')) { <div class="invalid-feedback">Please enter a valid image filename.</div> }</div>
+<div class="col-12"><label class="form-label" for="description">Description</label><textarea class="form-control" id="description" formControlName="description" rows="4" required [class.is-invalid]="invalid('description')"></textarea>
+@if (invalid('description')) { <div class="invalid-feedback">Please enter a description.</div> }</div>
+</div><div class="mt-4 d-flex gap-2"><button class="btn btn-primary" type="submit" [disabled]="busy()">{{ busy() ? 'Saving…' : (trip() ? 'Save changes' : 'Save trip') }}</button><a class="btn btn-outline-secondary" routerLink="/">Cancel</a></div>
+</fieldset></form>

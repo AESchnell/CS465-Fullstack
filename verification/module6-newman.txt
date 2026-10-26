@@ -1,0 +1,87 @@
+newman
+
+Travlr Module Six CRUD
+
+→ GET all trips
+  GET http://127.0.0.1:3000/api/trips [200 OK, 2.57kB, 28ms]
+  ✓  HTTP 200
+  ✓  Trip list is an array
+
+→ POST a temporary trip
+  POST http://127.0.0.1:3000/api/trips [201 Created, 559B, 12ms]
+  ✓  HTTP 201
+  ✓  Created code matches
+
+→ GET created trip
+  GET http://127.0.0.1:3000/api/trips/M6TEST1792373213990 [200 OK, 556B, 3ms]
+  ✓  HTTP 200
+  ✓  Trip persisted
+
+→ POST duplicate code
+  POST http://127.0.0.1:3000/api/trips [409 Conflict, 285B, 2ms]
+  ✓  HTTP 409
+
+→ POST invalid price
+  POST http://127.0.0.1:3000/api/trips [400 Bad Request, 318B, 1ms]
+  ✓  HTTP 400
+
+→ PUT update trip
+  PUT http://127.0.0.1:3000/api/trips/M6TEST1792373213990 [200 OK, 557B, 5ms]
+  ✓  HTTP 200
+  ✓  Price updated
+
+→ GET saved update
+  GET http://127.0.0.1:3000/api/trips/M6TEST1792373213990 [200 OK, 559B, 3ms]
+  ✓  HTTP 200
+  ✓  Update persisted
+
+→ Public website reflects update
+  GET http://127.0.0.1:3000/travel [200 OK, 5.21kB, 27ms]
+  ✓  HTTP 200
+  ✓  Updated trip is rendered
+
+→ DELETE temporary trip
+  DELETE http://127.0.0.1:3000/api/trips/M6TEST1792373213990 [200 OK, 291B, 2ms]
+  ✓  HTTP 200
+  ✓  Deleted code matches
+
+→ GET deleted trip
+  GET http://127.0.0.1:3000/api/trips/M6TEST1792373213990 [404 Not Found, 271B, 2ms]
+  ✓  HTTP 404
+
+→ PUT missing trip
+  PUT http://127.0.0.1:3000/api/trips/M6TEST1792373213990 [404 Not Found, 271B, 2ms]
+  ✓  HTTP 404
+
+→ DELETE missing trip
+  DELETE http://127.0.0.1:3000/api/trips/M6TEST1792373213990 [404 Not Found, 271B, 1ms]
+  ✓  HTTP 404
+
+→ Public website reflects deletion
+  GET http://127.0.0.1:3000/travel [200 OK, 4.89kB, 5ms]
+  ✓  HTTP 200
+  ✓  Deleted trip is absent
+
+→ Unsupported method
+  PATCH http://127.0.0.1:3000/api/trips [405 Method Not Allowed, 308B, 1ms]
+  ✓  HTTP 405
+
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │               1 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │              14 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │              14 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │               1 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │              22 │               0 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 238ms                                   │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 13.54kB (approx)                       │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 6ms [min: 1ms, max: 28ms, s.d.: 8ms] │
+└─────────────────────────────────────────────────────────────┘

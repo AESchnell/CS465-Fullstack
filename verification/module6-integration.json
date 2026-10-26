@@ -1,0 +1,11 @@
+{
+  "checkedAt": "2026-10-19T01:25:24.346Z",
+  "createdVia": "Angular development-server API proxy (HTTP, not browser UI)",
+  "tripCode": "CORC270615",
+  "postStatus": 201,
+  "putStatus": 200,
+  "tripCount": 4,
+  "mongodbPrice": "1299.00",
+  "publicWebsiteContainsTrip": true,
+  "browserVerification": "Blocked: browser security policy verification unavailable; no screenshots captured."
+}

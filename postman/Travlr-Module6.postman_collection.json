@@ -1,0 +1,368 @@
+{
+  "info": {
+    "name": "Travlr Module Six CRUD",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Creates, edits, verifies and deletes only its own temporary M6TEST record. Start the local assignment server before running."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:3000"
+    }
+  ],
+  "item": [
+    {
+      "name": "GET all trips",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/trips"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Trip list is an array\", () => pm.expect(pm.response.json()).to.be.an(\"array\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST a temporary trip",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/trips",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"code\": \"{{testCode}}\", \"name\": \"Module Six API Test\", \"length\": \"3 nights / 4 days\", \"start\": \"2027-06-15\", \"resort\": \"Coral Cove Resort\", \"perPerson\": \"1099.00\", \"image\": \"reef2.jpg\", \"description\": \"<p>A coastal escape with reef snorkeling and sunset kayaking.</p>\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+              "pm.test(\"Created code matches\", () => pm.expect(pm.response.json().code).to.eql(pm.collectionVariables.get(\"testCode\")));"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.collectionVariables.set(\"testCode\", \"M6TEST\" + Date.now());"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET created trip",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/trips/{{testCode}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Trip persisted\", () => pm.expect(pm.response.json()[0].name).to.eql(\"Module Six API Test\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST duplicate code",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/trips",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"code\": \"{{testCode}}\", \"name\": \"Module Six API Test\", \"length\": \"3 nights / 4 days\", \"start\": \"2027-06-15\", \"resort\": \"Coral Cove Resort\", \"perPerson\": \"1099.00\", \"image\": \"reef2.jpg\", \"description\": \"<p>A coastal escape with reef snorkeling and sunset kayaking.</p>\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST invalid price",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/trips",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"code\": \"{{testCode}}\", \"name\": \"Module Six API Test\", \"length\": \"3 nights / 4 days\", \"start\": \"2027-06-15\", \"resort\": \"Coral Cove Resort\", \"perPerson\": \"-2\", \"image\": \"reef2.jpg\", \"description\": \"<p>A coastal escape with reef snorkeling and sunset kayaking.</p>\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "PUT update trip",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/trips/{{testCode}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"code\": \"{{testCode}}\", \"name\": \"Module Six API Updated\", \"length\": \"3 nights / 4 days\", \"start\": \"2027-06-15\", \"resort\": \"Coral Cove Resort\", \"perPerson\": \"1199.00\", \"image\": \"reef2.jpg\", \"description\": \"<p>A coastal escape with reef snorkeling and sunset kayaking.</p>\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Price updated\", () => pm.expect(pm.response.json().perPerson).to.eql(\"1199.00\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET saved update",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/trips/{{testCode}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Update persisted\", () => pm.expect(pm.response.json()[0].name).to.eql(\"Module Six API Updated\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Public website reflects update",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/travel"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Updated trip is rendered\", () => pm.expect(pm.response.text()).to.include(\"Module Six API Updated\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "DELETE temporary trip",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/trips/{{testCode}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Deleted code matches\", () => pm.expect(pm.response.json().code).to.eql(pm.collectionVariables.get(\"testCode\")));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET deleted trip",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/trips/{{testCode}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "PUT missing trip",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/trips/{{testCode}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"code\": \"{{testCode}}\", \"name\": \"Module Six API Updated\", \"length\": \"3 nights / 4 days\", \"start\": \"2027-06-15\", \"resort\": \"Coral Cove Resort\", \"perPerson\": \"1199.00\", \"image\": \"reef2.jpg\", \"description\": \"<p>A coastal escape with reef snorkeling and sunset kayaking.</p>\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "DELETE missing trip",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/trips/{{testCode}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Public website reflects deletion",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/travel"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"Deleted trip is absent\", () => pm.expect(pm.response.text()).not.to.include(\"Module Six API Updated\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Unsupported method",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": "{{baseUrl}}/api/trips"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 405\", () => pm.response.to.have.status(405));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

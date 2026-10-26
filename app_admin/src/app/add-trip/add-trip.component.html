@@ -1,0 +1,4 @@
+<div class="mx-auto" style="max-width: 820px"><h1>Add trip</h1><p class="text-secondary">Create a getaway for the Travlr collection.</p>
+@if (error()) { <div class="alert alert-danger" role="alert">{{ error() }}</div> }
+<app-trip-form [busy]="busy()" (saveTrip)="save($event)" />
+</div>

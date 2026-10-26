@@ -1,0 +1,5 @@
+<div class="mx-auto" style="max-width: 820px"><h1>Edit trip</h1><p class="text-secondary">Update the trip details and save your changes.</p>
+@if (error()) { <div class="alert alert-danger" role="alert">{{ error() }}</div> }
+@if (loading()) { <p role="status">Loading trip…</p> }
+@if (trip(); as current) { <app-trip-form [trip]="current" [busy]="busy()" (saveTrip)="save($event)" /> }
+</div>
