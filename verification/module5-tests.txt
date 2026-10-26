@@ -1,0 +1,29 @@
+
+> travlr@0.0.0 test
+> node --test
+
+✔ list and trip-code routes return JSON and use the correct FIND filters (20.95425ms)
+✔ empty list is 200; missing trip and route are JSON 404; POST is 405 (5.670709ms)
+Trip list lookup failed: internal database details
+Trip code lookup failed: internal database details
+Travel page API request failed: Trips API returned HTTP 500
+Travel page API request failed: Trips API did not return an array
+Travel page API request failed: invalid JSON
+Travel page API request failed: connection refused
+✔ database failures return JSON 500 without leaking internal errors (1.863625ms)
+✔ Travel renders records returned by the API (0.2065ms)
+✔ Travel displays an empty-list message (0.079125ms)
+✔ Travel handles HTTP failure with a friendly 502 page (0.076ms)
+✔ Travel handles non-array JSON with a friendly 502 page (0.061917ms)
+✔ Travel handles invalid JSON with a friendly 502 page (0.070125ms)
+✔ Travel handles network failure with a friendly 502 page (0.061833ms)
+✔ sample trips validate and serialize dates as ISO strings (3.35525ms)
+✔ incomplete trip records and invalid dates are rejected (3.644542ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 149.944417

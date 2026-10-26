@@ -1,0 +1,231 @@
+{
+  "info": {
+    "name": "Travlr Module Five",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Run against the assignment database containing the three sample trips. Requests are read-only; the POST test verifies rejection."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:3000"
+    }
+  ],
+  "item": [
+    {
+      "name": "All trips",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/trips"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('JSON content type', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json'));",
+              "const body = pm.response.json();",
+              "pm.test('Three seeded trips', () => pm.expect(body).to.be.an('array').with.lengthOf(3));",
+              "pm.test('Required fields and dates', () => body.forEach(trip => { pm.expect(trip).to.include.all.keys('code', 'name', 'length', 'start', 'resort', 'perPerson', 'image', 'description'); pm.expect(Number.isNaN(Date.parse(trip.start))).to.equal(false); }));",
+              "pm.test('All expected trip codes', () => pm.expect(body.map(t => t.code)).to.have.members(['GALR210214', 'DAWR210315', 'CLAR210621']));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gale Reef",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/trips/GALR210214"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('JSON content type', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json'));",
+              "const body = pm.response.json();",
+              "pm.test('One matching trip', () => { pm.expect(body).to.be.an('array').with.lengthOf(1); pm.expect(body[0].code).to.equal('GALR210214'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dawson\u2019s Reef",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/trips/DAWR210315"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('JSON content type', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json'));",
+              "const body = pm.response.json();",
+              "pm.test('One matching trip', () => { pm.expect(body).to.be.an('array').with.lengthOf(1); pm.expect(body[0].code).to.equal('DAWR210315'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Claire\u2019s REEF",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/trips/CLAR210621"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('JSON content type', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json'));",
+              "const body = pm.response.json();",
+              "pm.test('One matching trip', () => { pm.expect(body).to.be.an('array').with.lengthOf(1); pm.expect(body[0].code).to.equal('CLAR210621'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Missing trip",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/trips/DOESNOTEXIST"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 404', () => pm.response.to.have.status(404));",
+              "pm.test('JSON content type', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json'));",
+              "const body = pm.response.json();",
+              "pm.test('Helpful error', () => pm.expect(body.message).to.equal('Trip not found.'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Unknown API endpoint",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/unknown"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 404', () => pm.response.to.have.status(404));",
+              "pm.test('JSON content type', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json'));",
+              "const body = pm.response.json();",
+              "pm.test('JSON error', () => pm.expect(body.message).to.equal('API endpoint not found.'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Unsupported method",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/trips"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 405', () => pm.response.to.have.status(405));",
+              "pm.test('JSON content type', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json'));",
+              "const body = pm.response.json();",
+              "pm.test('Allowed methods', () => pm.expect(pm.response.headers.get('Allow')).to.equal('GET, HEAD'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Travel page uses API records",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "text/html"
+          }
+        ],
+        "url": "{{baseUrl}}/travel"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('Trip links rendered', () => ['GALR210214', 'DAWR210315', 'CLAR210621'].forEach(code => pm.expect(pm.response.text()).to.include('/api/trips/' + code)));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
